@@ -1,0 +1,21 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ex:  <http://example.org/>
+
+
+SELECT DISTINCT ?localProduct ?label  (concat("(⊕",group_concat(?fprov),")")AS ?f) WHERE {
+    VALUES ( ?bgp1 ) { ( <http://172.21.233.17:7459/repositories/vendor59> ) ( <http://172.21.233.17:7471/repositories/vendor71> ) ( <http://172.21.233.17:7314/repositories/ratingsite14> ) ( <http://172.21.233.17:7318/repositories/ratingsite18>) ( <http://172.21.233.17:7320/repositories/ratingsite20> ) ( <http://172.21.233.17:7325/repositories/ratingsite25> ) ( <http://172.21.233.17:7354/repositories/ratingsite54> ) ( <http://172.21.233.17:7419/repositories/vendor19> ) ( <http://172.21.233.17:7349/repositories/ratingsite49> ) ( <http://172.21.233.17:7355/repositories/ratingsite55> ) ( <http://172.21.233.17:7379/repositories/ratingsite79> ) ( <http://172.21.233.17:7344/repositories/ratingsite44> ) ( <http://172.21.233.17:7345/repositories/ratingsite45> ) ( <http://172.21.233.17:7305/repositories/ratingsite5> ) ( <http://172.21.233.17:7353/repositories/ratingsite53> ) ( <http://172.21.233.17:7306/repositories/ratingsite6> ) ( <http://172.21.233.17:7375/repositories/ratingsite75> ) ( <http://172.21.233.17:7303/repositories/ratingsite3> ) ( <http://172.21.233.17:7352/repositories/ratingsite52> ) ( <http://172.21.233.17:7367/repositories/ratingsite67> ) ( <http://172.21.233.17:7372/repositories/ratingsite72> ) ( <http://172.21.233.17:7376/repositories/ratingsite76> ) ( <http://172.21.233.17:7310/repositories/ratingsite10> ) ( <http://172.21.233.17:7336/repositories/ratingsite36> ) ( <http://172.21.233.17:7371/repositories/ratingsite71> ) ( <http://172.21.233.17:7373/repositories/ratingsite73> ) }
+     SERVICE ?bgp1 {
+       << ?localProduct rdfs:label ?label >> ex:occurrenceOf ?fprov0. 
+       << ?localProduct rdf:type bsbm:Product >> ex:occurrenceOf ?fprov1. 
+        # const "pyrenees" in ?label 
+        FILTER regex(lcase(str(?label)), "pyrenees")
+        
+        
+         BIND(concat("(⊗", STR(?fprov0), STR(?fprov1), ")") AS ?Se1)
+    }
+    
+ BIND(concat("( ⊛",STR(?bgp1),"{",STR(?Se1),"})") AS ?fprov)
+}GROUP BY ?localProduct ?label

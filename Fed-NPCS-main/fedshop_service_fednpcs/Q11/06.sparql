@@ -1,0 +1,26 @@
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX ex:  <http://example.org/>
+
+
+SELECT DISTINCT ?property ?hasValue ?isValueOf (concat("(⊕",group_concat(?fprov),")")AS ?f)  WHERE {
+
+    VALUES ( ?bgp1 ) { ( <http://172.21.233.17:7406/repositories/vendor6> ) }
+   SERVICE ?bgp1 {
+        
+        # const <http://www.vendor6.fr/Offer886>
+       << <http://www.vendor6.fr/Offer886> bsbm:product ?product  >> ex:occurrenceOf ?fprov0. 
+        { << <http://www.vendor6.fr/Offer886> ?property ?hasValue  >> ex:occurrenceOf ?fprov1.
+         BIND(concat("(⊗", STR(?fprov1), ")") AS ?rightunion0)
+        
+        }
+        UNION
+        { << ?isValueOf ?property <http://www.vendor6.fr/Offer886>  >> ex:occurrenceOf ?fprov2.
+              BIND(concat("(⊗", STR(?fprov2), ")") AS ?leftunion0)
+        }
+         BIND (CONCAT("(⊕",COALESCE(?rightunion0," "),",",COALESCE(?leftunion0," "),",",")")  AS ?funion0) .
+        BIND(concat("(⊗", STR(?fprov0), STR(?funion0), ")") AS ?Se1)
+        
+    }
+     BIND(concat("( ⊛",STR(?bgp1),"{",STR(?Se1),"})") AS ?fprov)
+    
+}GROUP BY ?property ?hasValue ?isValueOf

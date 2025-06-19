@@ -1,0 +1,10 @@
+PREFIX rev: <http://purl.org/stuff/rev#>
+
+
+SELECT DISTINCT ?x WHERE { 
+    VALUES ( ?bgp1 ) { ( <http://172.21.233.17:7302/repositories/ratingsite2> ) }
+    SERVICE ?bgp1 {
+        # const <http://www.ratingsite2.fr/Review10532>
+        <http://www.ratingsite2.fr/Review10532> rev:reviewer ?x 
+    }
+}

@@ -1,0 +1,27 @@
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ex:  <http://example.org/>
+
+SELECT DISTINCT ?offer ?price (concat("(⊕",group_concat(?fprov),")")AS ?f) WHERE {
+    VALUES ( ?bgp1 ) { ( <http://172.21.233.17:7404/repositories/vendor4> ) }
+    SERVICE ?bgp1 {
+       << ?offer bsbm:product ?localProductXYZ  >> ex:occurrenceOf ?fprov0.
+       << ?localProductXYZ owl:sameAs bsbm:Product80530  >> ex:occurrenceOf ?fprov1.
+       << ?offer bsbm:vendor ?vendor  >> ex:occurrenceOf ?fprov2.
+        #?offer dc:publisher ?vendor .
+       << ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#US>  >> ex:occurrenceOf ?fprov3.
+       << ?offer bsbm:deliveryDays ?deliveryDays  >> ex:occurrenceOf ?fprov4.
+        FILTER(?deliveryDays <= 3) 
+     <<   ?offer bsbm:price ?price  >> ex:occurrenceOf ?fprov5.
+      <<  ?offer bsbm:validTo ?date  >> ex:occurrenceOf ?fprov6.
+        # const "2008-04-10T00:00:00"^^xsd:dateTime < ?date
+        FILTER (?date > "2008-04-10T00:00:00"^^xsd:dateTime ) .
+            
+         BIND(concat("(⊗", STR(?fprov0), STR(?fprov1), STR(?fprov2), STR(?fprov3), STR(?fprov4),STR(?fprov5),STR(?fprov6), ")") AS ?Se1)
+    }
+ BIND(concat("( ⊛",STR(?bgp1),"{",STR(?Se1),"})") AS ?fprov)
+}GROUP BY ?offer ?price
+ORDER BY ?offer ?price
+LIMIT 10

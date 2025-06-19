@@ -1,0 +1,155 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ex:  <http://example.org/>
+
+SELECT DISTINCT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle ?reviewer ?revName ?rating1 ?rating2  (concat("(⊕",group_concat(?fprov),")")AS ?f) WHERE { 
+ VALUES ( ?bgp1 ?bgp2 ) { ( <http://172.21.233.17:7200/repositories/nan> <http://172.21.233.17:7318/repositories/ratingsite18> ) ( <http://172.21.233.17:7200/repositories/nan> <http://172.21.233.17:7338/repositories/ratingsite38> ) ( <http://172.21.233.17:7200/repositories/nan> <http://172.21.233.17:7337/repositories/ratingsite37> ) ( <http://172.21.233.17:7200/repositories/nan> <http://172.21.233.17:7302/repositories/ratingsite2> ) }
+                { 
+        {  {
+                       SERVICE ?bgp1 {
+                  <<      ?localProduct rdf:type bsbm:Product >> ex:occurrenceOf ?fprov0.
+                        # const bsbm:Product107874 
+                   <<     ?localProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov1.
+                    <<    ?localProduct rdfs:label ?productLabel >> ex:occurrenceOf ?fprov2.
+                     <<   ?offer bsbm:product ?offerProduct >> ex:occurrenceOf ?fprov3.
+                     <<   ?offerProduct  owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov4.
+                     <<   ?offer bsbm:price ?price >> ex:occurrenceOf ?fprov5.
+                     <<   ?offer bsbm:vendor ?vendor >> ex:occurrenceOf ?fprov6.
+                     <<   ?vendor rdfs:label ?vendorTitle >> ex:occurrenceOf ?fprov7.
+                     <<   ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#FR> >> ex:occurrenceOf ?fprov8.
+                     <<   ?offer bsbm:validTo ?date >> ex:occurrenceOf ?fprov9.
+
+
+                        FILTER (?date > "2008-08-27T00:00:00"^^xsd:dateTime )
+                         BIND(concat("(⊗", STR(?fprov0), STR(?fprov1), STR(?fprov2), STR(?fprov3), STR(?fprov4),STR(?fprov5),STR(?fprov6),STR(?fprov7),STR(?fprov8),STR(?fprov9), ")") AS ?rightunion0)
+                    } 
+                }
+    UNION
+    {
+          OPTIONAL {
+        SERVICE ?bgp1 {
+               
+          <<  ?localProduct rdf:type bsbm:Product >> ex:occurrenceOf ?fprov10.
+            # const bsbm:Product107874
+         <<   ?localProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fpro11.
+         <<   ?localProduct rdfs:label ?productLabel >> ex:occurrenceOf ?fprov12.
+         <<   ?offer bsbm:product ?offerProduct >> ex:occurrenceOf ?fprov13.
+         <<   ?offerProduct  owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov14. 
+        <<    ?offer bsbm:price ?price >> ex:occurrenceOf ?fprov15.
+        <<    ?offer bsbm:vendor ?vendor >> ex:occurrenceOf ?fprov16.
+        <<    ?vendor rdfs:label ?vendorTitle >> ex:occurrenceOf ?fprov17.
+        <<    ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#FR> >> ex:occurrenceOf ?fprov18.
+        <<    ?offer bsbm:validTo ?date >> ex:occurrenceOf ?fprov19.
+
+
+            FILTER (?date > "2008-08-27T00:00:00"^^xsd:dateTime )
+                 BIND(concat("(⊗", STR(?fprov10), STR(?fprov11), STR(?fprov12), STR(?fprov13), STR(?fprov14),STR(?fprov15),STR(?fprov16),STR(?fprov17),STR(?fprov18),STR(?fprov19), ")") AS ?leftoptional0)
+        } # const "2008-08-27T00:00:00"^^xsd:dateTime < ?date 
+          BIND(CONCAT("(⊖",",",GROUP_CONCAT(?leftoptional0) ,",",")")  AS ?leftunion0)    
+        }
+        
+    }    
+             BIND (CONCAT("(⊕",COALESCE(?rightunion0," "),",",COALESCE(?leftunion0," "),",",")")  AS ?funion0) .
+        }
+        {        { {
+        SERVICE ?bgp2 {
+            {  <<     ?localProduct rdf:type bsbm:Product >> ex:occurrenceOf ?fprov20.
+            # const bsbm:Product107874
+       <<     ?localProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov21.
+        <<    ?localProduct rdfs:label ?productLabel >> ex:occurrenceOf ?fprov22.
+       <<     ?review bsbm:reviewFor ?reviewProduct >> ex:occurrenceOf ?fprov23.
+       <<     ?reviewProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov24.
+       <<     ?review rev:reviewer ?reviewer >> ex:occurrenceOf ?fprov25.
+      <<      ?reviewer foaf:name ?revName >> ex:occurrenceOf ?fprov26.
+      <<      ?review dc:title ?revTitle >> ex:occurrenceOf ?fprov27.
+            << ?review bsbm:rating1 ?rating1 >> ex:occurrenceOf ?fprov28.
+        <<     ?review bsbm:rating2 ?rating2 >> ex:occurrenceOf ?fprov29. 
+                BIND(concat("(⊗", STR(?fprov20), STR(?fprov21), STR(?fprov22), STR(?fprov23), STR(?fprov24),STR(?fprov25),STR(?fprov26),STR(?fprov27),STR(?fprov28),STR(?fprov29), ")") AS ?rightunion1)
+            }
+        }
+    }
+            UNION{
+        SERVICE ?bgp2 {
+            {     
+                        
+                    SELECT DISTINCT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle ?reviewer ?revName ?rating1 ?rating2 (CONCAT("(⊖",",",GROUP_CONCAT(?leftoptional1) ,",",")")  AS ?leftunion1)  WHERE{  
+                        <<            ?localProduct rdf:type bsbm:Product >> ex:occurrenceOf ?fprov30.
+            # const bsbm:Product107874
+       <<     ?localProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov31.
+       <<     ?localProduct rdfs:label ?productLabel >> ex:occurrenceOf ?fprov32.
+       <<     ?review bsbm:reviewFor ?reviewProduct >> ex:occurrenceOf ?fprov33.
+       <<     ?reviewProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov34.
+       <<     ?review rev:reviewer ?reviewer >> ex:occurrenceOf ?fprov35.
+       <<     ?reviewer foaf:name ?revName >> ex:occurrenceOf ?fprov36.
+       <<     ?review dc:title ?revTitle >> ex:occurrenceOf ?fprov37. 
+                OPTIONAL{   <<   ?review bsbm:rating1 ?rating1 >> ex:occurrenceOf ?fprov38.
+                    <<      ?review bsbm:rating2 ?rating2 >> ex:occurrenceOf ?fprov39. }
+                BIND(concat("(⊗", STR(?fprov30), STR(?fprov31), STR(?fprov32), STR(?fprov33), STR(?fprov34),STR(?fprov35),STR(?fprov36),STR(?fprov37),STR(?fprov38),STR(?fprov39), ")") AS ?leftoptional1)
+        } # const "2008-08-27T00:00:00"^^xsd:dateTime < ?date 
+       GROUP BY  ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle ?reviewer ?revName ?rating1 ?rating2  
+                    }
+        }
+        
+    }
+                 BIND (CONCAT("(⊕",COALESCE(?rightunion1," "),",",COALESCE(?leftunion1," "),",",")")  AS ?funion1) .
+} 
+    UNION
+    {
+    
+      OPTIONAL {
+            { {
+        SERVICE ?bgp2 {
+                
+   << ?localProduct rdf:type bsbm:Product >> ex:occurrenceOf ?fprov40.
+            # const bsbm:Product107874
+        <<    ?localProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov41.
+         <<   ?localProduct rdfs:label ?productLabel >> ex:occurrenceOf ?fprov42.
+         <<   ?review bsbm:reviewFor ?reviewProduct >> ex:occurrenceOf ?fprov43.
+         <<   ?reviewProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov44.
+         <<   ?review rev:reviewer ?reviewer >> ex:occurrenceOf ?fprov45.
+        <<    ?reviewer foaf:name ?revName >> ex:occurrenceOf ?fprov46.
+         <<   ?review dc:title ?revTitle >> ex:occurrenceOf ?fprov47.
+       << ?review bsbm:rating1 ?rating1 >> ex:occurrenceOf ?fprov48.
+                        <<  ?review bsbm:rating2 ?rating2 >> ex:occurrenceOf ?fprov49.
+                BIND(concat("(⊗", STR(?fprov40), STR(?fprov41), STR(?fprov42), STR(?fprov43), STR(?fprov44),STR(?fprov45),STR(?fprov46),STR(?fprov47),STR(?fprov48),STR(?fprov49), ")") AS ?rightunion2)
+            
+                }
+            }
+                UNION
+                { 
+                        SERVICE ?bgp2 {
+         SELECT DISTINCT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle ?reviewer ?revName ?rating1 ?rating2 (CONCAT("(⊖",",",GROUP_CONCAT(?leftoptional2) ,",",")")  AS ?leftunion2)  WHERE{                
+                    
+                    << ?localProduct rdf:type bsbm:Product >> ex:occurrenceOf ?fprov50.
+            # const bsbm:Product107874
+        <<    ?localProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov51.
+         <<   ?localProduct rdfs:label ?productLabel >> ex:occurrenceOf ?fprov52.
+         <<   ?review bsbm:reviewFor ?reviewProduct >> ex:occurrenceOf ?fprov53.
+         <<   ?reviewProduct owl:sameAs bsbm:Product107874 >> ex:occurrenceOf ?fprov54.
+         <<   ?review rev:reviewer ?reviewer >> ex:occurrenceOf ?fprov55.
+        <<    ?reviewer foaf:name ?revName >> ex:occurrenceOf ?fprov56.
+         <<   ?review dc:title ?revTitle >> ex:occurrenceOf ?fprov57.
+            OPTIONAL { << ?review bsbm:rating1 ?rating1 >> ex:occurrenceOf ?fprov58.
+                        <<  ?review bsbm:rating2 ?rating2 >> ex:occurrenceOf ?fprov59. } 
+ BIND(concat("(⊗", STR(?fprov50), STR(?fprov51), STR(?fprov52), STR(?fprov53), STR(?fprov54),STR(?fprov55),STR(?fprov56),STR(?fprov57),STR(?fprov58),STR(?fprov59), ")") AS ?leftoptional2)
+        } # const "2008-08-27T00:00:00"^^xsd:dateTime < ?date 
+          GROUP BY  ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle ?reviewer ?revName ?rating1 ?rating2  
+                    }
+
+} BIND (CONCAT("(⊕",COALESCE(?rightunion2," "),",",COALESCE(?leftunion2," "),",",")")  AS ?funion2) .
+          
+        }
+    }
+        }
+           BIND (CONCAT("(⊕",",",COALESCE(?funion1," "),",",COALESCE(?funion2," "),",",")")  AS ?funion3) .   
+           
+    }
+         BIND(concat("( ⊛",STR(?bgp1),"{",STR(?funion0),"}",STR(?bgp2),"{",STR(?funion3),"})" ) AS ?fprov)
+    }
+}GROUP BY ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle ?reviewer ?revName ?rating1 ?rating2

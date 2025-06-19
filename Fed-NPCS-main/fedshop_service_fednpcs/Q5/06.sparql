@@ -1,0 +1,41 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ex:  <http://example.org/>
+
+SELECT DISTINCT ?product ?localProductLabel  (concat("(⊕",group_concat(?fprov),")")AS ?f) WHERE { 
+    VALUES ( ?bgp1 ?bgp2 ) { ( <http://172.21.233.17:7444/repositories/vendor44> <http://172.21.233.17:7357/repositories/ratingsite57> ) ( <http://172.21.233.17:7444/repositories/vendor44> <http://172.21.233.17:7361/repositories/ratingsite61> ) ( <http://172.21.233.17:7444/repositories/vendor44> <http://172.21.233.17:7438/repositories/vendor38> ) ( <http://172.21.233.17:7444/repositories/vendor44> <http://172.21.233.17:7403/repositories/vendor3> ) ( <http://172.21.233.17:7444/repositories/vendor44> <http://172.21.233.17:7365/repositories/ratingsite65> ) ( <http://172.21.233.17:7444/repositories/vendor44> <http://172.21.233.17:7322/repositories/ratingsite22> ) ( <http://172.21.233.17:7460/repositories/vendor60> <http://172.21.233.17:7361/repositories/ratingsite61> ) ( <http://172.21.233.17:7460/repositories/vendor60> <http://172.21.233.17:7438/repositories/vendor38> ) ( <http://172.21.233.17:7460/repositories/vendor60> <http://172.21.233.17:7322/repositories/ratingsite22> ) ( <http://172.21.233.17:7460/repositories/vendor60> <http://172.21.233.17:7357/repositories/ratingsite57> ) ( <http://172.21.233.17:7460/repositories/vendor60> <http://172.21.233.17:7403/repositories/vendor3> ) ( <http://172.21.233.17:7460/repositories/vendor60> <http://172.21.233.17:7365/repositories/ratingsite65> ) ( <http://172.21.233.17:7322/repositories/ratingsite22> <http://172.21.233.17:7357/repositories/ratingsite57> ) ( <http://172.21.233.17:7322/repositories/ratingsite22> <http://172.21.233.17:7438/repositories/vendor38> ) ( <http://172.21.233.17:7322/repositories/ratingsite22> <http://172.21.233.17:7361/repositories/ratingsite61> ) ( <http://172.21.233.17:7322/repositories/ratingsite22> <http://172.21.233.17:7365/repositories/ratingsite65> ) ( <http://172.21.233.17:7322/repositories/ratingsite22> <http://172.21.233.17:7403/repositories/vendor3> ) ( <http://172.21.233.17:7322/repositories/ratingsite22> <http://172.21.233.17:7322/repositories/ratingsite22> ) ( <http://172.21.233.17:7300/repositories/ratingsite0> <http://172.21.233.17:7438/repositories/vendor38> ) ( <http://172.21.233.17:7300/repositories/ratingsite0> <http://172.21.233.17:7322/repositories/ratingsite22> ) ( <http://172.21.233.17:7300/repositories/ratingsite0> <http://172.21.233.17:7403/repositories/vendor3> ) ( <http://172.21.233.17:7300/repositories/ratingsite0> <http://172.21.233.17:7365/repositories/ratingsite65> ) ( <http://172.21.233.17:7300/repositories/ratingsite0> <http://172.21.233.17:7361/repositories/ratingsite61> ) ( <http://172.21.233.17:7300/repositories/ratingsite0> <http://172.21.233.17:7357/repositories/ratingsite57> ) ( <http://172.21.233.17:7362/repositories/ratingsite62> <http://172.21.233.17:7322/repositories/ratingsite22> ) ( <http://172.21.233.17:7362/repositories/ratingsite62> <http://172.21.233.17:7403/repositories/vendor3> ) ( <http://172.21.233.17:7362/repositories/ratingsite62> <http://172.21.233.17:7438/repositories/vendor38> ) ( <http://172.21.233.17:7362/repositories/ratingsite62> <http://172.21.233.17:7361/repositories/ratingsite61> ) ( <http://172.21.233.17:7362/repositories/ratingsite62> <http://172.21.233.17:7357/repositories/ratingsite57> ) ( <http://172.21.233.17:7362/repositories/ratingsite62> <http://172.21.233.17:7365/repositories/ratingsite65> ) ( <http://172.21.233.17:7306/repositories/ratingsite6> <http://172.21.233.17:7365/repositories/ratingsite65> ) ( <http://172.21.233.17:7306/repositories/ratingsite6> <http://172.21.233.17:7357/repositories/ratingsite57> ) ( <http://172.21.233.17:7306/repositories/ratingsite6> <http://172.21.233.17:7438/repositories/vendor38> ) ( <http://172.21.233.17:7306/repositories/ratingsite6> <http://172.21.233.17:7361/repositories/ratingsite61> ) ( <http://172.21.233.17:7306/repositories/ratingsite6> <http://172.21.233.17:7322/repositories/ratingsite22> ) ( <http://172.21.233.17:7306/repositories/ratingsite6> <http://172.21.233.17:7403/repositories/vendor3> ) }
+
+
+   SERVICE ?bgp2 {
+        # const bsbm:Product136030
+       << ?localProductXYZ owl:sameAs bsbm:Product136030  >> ex:occurrenceOf ?fprov0. 
+       << ?localProductXYZ bsbm:productFeature ?localProdFeatureXYZ >> ex:occurrenceOf ?fprov1. 
+       << ?localProdFeatureXYZ owl:sameAs ?prodFeature >> ex:occurrenceOf ?fprov2. 
+       << ?localProductXYZ bsbm:productPropertyNumeric1 ?origProperty1  >> ex:occurrenceOf ?fprov3. 
+       << ?localProductXYZ bsbm:productPropertyNumeric2 ?origProperty2  >> ex:occurrenceOf ?fprov4. 
+          BIND(concat("(⊗", STR(?fprov0), STR(?fprov1), STR(?fprov2), STR(?fprov3), STR(?fprov4), ")") AS ?Se1)
+    } .
+
+
+    SERVICE ?bgp1 {
+      <<  ?localProduct owl:sameAs ?product  >> ex:occurrenceOf ?fprov5. 
+        FILTER (bsbm:Product136030 != ?product)        
+     <<   ?localProduct rdfs:label ?localProductLabel  >> ex:occurrenceOf ?fprov6. 
+      <<  ?localProduct bsbm:productFeature ?localProdFeature  >> ex:occurrenceOf ?fprov7. 
+       << ?localProdFeature owl:sameAs ?prodFeature >> ex:occurrenceOf ?fprov8. 
+       << ?localProduct bsbm:productPropertyNumeric1 ?simProperty1  >> ex:occurrenceOf ?fprov9. 
+       << ?localProduct bsbm:productPropertyNumeric2 ?simProperty2  >> ex:occurrenceOf ?fprov10.    
+        BIND(concat("(⊗", STR(?fprov5), STR(?fprov6), STR(?fprov7), STR(?fprov8), STR(?fprov9), STR(?fprov10), ")") AS ?Se2)
+    } .
+
+
+    # Values are pre-determined because we knew the boundaries from the normal distribution
+    FILTER(?simProperty1 < (?origProperty1 + 20) && ?simProperty1 > (?origProperty1 - 20))
+    FILTER(?simProperty2 < (?origProperty2 + 70) && ?simProperty2 > (?origProperty2 - 70))
+
+    BIND(concat("( ⊛",STR(?bgp1),"{",STR(?Se1),"}",STR(?bgp2),"{",STR(?Se2),"})" ) AS ?fprov)
+}GROUP BY ?product ?localProductLabel 
+ORDER BY ?product ?localProductLabel
+LIMIT 5

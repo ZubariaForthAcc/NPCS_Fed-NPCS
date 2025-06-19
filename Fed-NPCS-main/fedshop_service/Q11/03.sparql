@@ -1,0 +1,13 @@
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+
+
+SELECT DISTINCT ?property ?hasValue ?isValueOf WHERE {
+    VALUES ( ?bgp1 ) { ( <http://172.21.233.17:7406/repositories/vendor6> ) }
+    SERVICE ?bgp1 {
+        # const <http://www.vendor6.fr/Offer886>
+        <http://www.vendor6.fr/Offer886> bsbm:product ?product . 
+        { <http://www.vendor6.fr/Offer886> ?property ?hasValue }
+        UNION
+        { ?isValueOf ?property <http://www.vendor6.fr/Offer886> }
+    }
+}

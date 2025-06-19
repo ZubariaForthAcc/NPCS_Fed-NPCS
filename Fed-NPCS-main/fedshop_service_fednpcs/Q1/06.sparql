@@ -1,0 +1,41 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ex:  <http://example.org/>
+
+
+SELECT DISTINCT ?product ?label  (concat("(⊕",group_concat(?fprov),")")AS ?f)WHERE {
+    VALUES ( ?bgp1 ) { ( <http://172.21.233.17:7300/repositories/ratingsite0> ) ( <http://172.21.233.17:7430/repositories/vendor30> ) ( <http://172.21.233.17:7345/repositories/ratingsite45> ) ( <http://172.21.233.17:7332/repositories/ratingsite32> ) ( <http://172.21.233.17:7355/repositories/ratingsite55> ) ( <http://172.21.233.17:7357/repositories/ratingsite57> ) }
+   
+   SERVICE ?bgp1 {   
+    <<    ?product rdfs:label ?label >> ex:occurrenceOf ?fprov0.
+      
+        # const bsbm:ProductType647
+      <<  ?product rdf:type ?localProductType >> ex:occurrenceOf ?fprov1.
+       << ?localProductType owl:sameAs bsbm:ProductType647 >> ex:occurrenceOf ?fprov2.
+
+
+        # const bsbm:ProductFeature8774
+      <<  ?product bsbm:productFeature ?localProductFeature1 >> ex:occurrenceOf ?fprov3.
+       << ?localProductFeature1 owl:sameAs bsbm:ProductFeature8774 >> ex:occurrenceOf ?fprov4.
+
+
+        # const bsbm:ProductFeature16935
+      <<  ?product bsbm:productFeature ?localProductFeature2 >> ex:occurrenceOf ?fprov5. 
+       << ?localProductFeature2 owl:sameAs bsbm:ProductFeature16935 >> ex:occurrenceOf ?fprov6.
+       << ?product bsbm:productPropertyNumeric1 ?value1 >> ex:occurrenceOf ?fprov7.
+        
+        # const "744"^^xsd:integer < ?value1
+        FILTER (?value1 > "744"^^xsd:integer) 
+        
+       
+         BIND(concat("(⊗", STR(?fprov0), STR(?fprov1), STR(?fprov2), STR(?fprov3), STR(?fprov4), ")") AS ?Se1)
+           
+    }
+    BIND(concat("( ⊛",STR(?bgp1),"{",STR(?Se1),"})") AS ?fprov)
+}GROUP BY ?product ?label
+ORDER BY ?product ?label
+LIMIT 10

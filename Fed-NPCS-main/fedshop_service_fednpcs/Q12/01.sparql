@@ -1,0 +1,29 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX bsbm-export: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ex:  <http://example.org/>
+
+
+SELECT DISTINCT  ?productURI  ?vendorURI ?offerURL ?price ?deliveryDays (concat("(⊕",group_concat(?fprov),")")AS ?f) WHERE { 
+    VALUES ( ?bgp1 ) { ( <http://172.21.233.17:7407/repositories/vendor7> ) }
+   SERVICE ?bgp1 {
+        # const <http://www.vendor7.fr/Offer858>
+     <<   <http://www.vendor7.fr/Offer858> bsbm:product ?productURI >> ex:occurrenceOf ?fprov0.
+      <<  ?productURI owl:sameAs ?ProductXYZ >> ex:occurrenceOf ?fprov1.
+       << ?productURI rdfs:label ?productlabel >> ex:occurrenceOf ?fprov2.
+       << <http://www.vendor7.fr/Offer858> bsbm:vendor ?vendorURI >> ex:occurrenceOf ?fprov3.
+       << ?vendorURI rdfs:label ?vendorname >> ex:occurrenceOf ?fprov4.
+       << ?vendorURI foaf:homepage ?vendorhomepage >> ex:occurrenceOf ?fprov5.
+       << <http://www.vendor7.fr/Offer858> bsbm:offerWebpage ?offerURL >> ex:occurrenceOf ?fprov6.
+       << <http://www.vendor7.fr/Offer858> bsbm:price ?price >> ex:occurrenceOf ?fprov7.
+       << <http://www.vendor7.fr/Offer858> bsbm:deliveryDays ?deliveryDays >> ex:occurrenceOf ?fprov8.
+       << <http://www.vendor7.fr/Offer858> bsbm:validTo ?validTo >> ex:occurrenceOf ?fprov9.
+         BIND(concat("(⊗", STR(?fprov0), STR(?fprov1), STR(?fprov2), STR(?fprov3), STR(?fprov4),STR(?fprov5),STR(?fprov6),STR(?fprov7),STR(?fprov8),STR(?fprov9), ")") AS ?Se1)
+           
+    }
+BIND(concat("( ⊛",STR(?bgp1),"{",STR(?Se1),"})") AS ?fprov)
+}GROUP BY   ?productURI  ?vendorURI ?offerURL ?price ?deliveryDays

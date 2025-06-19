@@ -1,0 +1,53 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ex:  <http://example.org/>
+
+
+SELECT DISTINCT ?product ?label ?propertyTextual (concat("(⊕",group_concat(?fprov),")")AS ?f) WHERE {
+    VALUES ( ?bgp1 ?bgp2 ) { ( <http://172.21.233.17:7337/repositories/ratingsite37> <http://172.21.233.17:7200/repositories/nan> ) ( <http://172.21.233.17:7302/repositories/ratingsite2> <http://172.21.233.17:7200/repositories/nan> ) ( <http://172.21.233.17:7350/repositories/ratingsite50> <http://172.21.233.17:7200/repositories/nan> ) ( <http://172.21.233.17:7200/repositories/nan> <http://172.21.233.17:7302/repositories/ratingsite2> ) ( <http://172.21.233.17:7200/repositories/nan> <http://172.21.233.17:7337/repositories/ratingsite37> ) ( <http://172.21.233.17:7200/repositories/nan> <http://172.21.233.17:7350/repositories/ratingsite50> ) }
+    {
+        SERVICE ?bgp1 { 
+        <<    ?product rdfs:label ?label  >> ex:occurrenceOf ?fprov0.
+            # const!* bsbm:ProductType630  
+         <<   ?product rdf:type ?localProductType  >> ex:occurrenceOf ?fprov1.
+          <<  ?localProductType owl:sameAs bsbm:ProductType630  >> ex:occurrenceOf ?fprov2.
+            # const!* bsbm:ProductFeature19851
+           << ?product bsbm:productFeature ?localProductFeature1  >> ex:occurrenceOf ?fprov3.
+           << ?localProductFeature1 owl:sameAs bsbm:ProductFeature19851 >> ex:occurrenceOf ?fprov4.
+           << ?product bsbm:productFeature ?localProductFeature2  >> ex:occurrenceOf ?fprov5.
+         <<   ?localProductFeature2 owl:sameAs bsbm:ProductFeature19019  >> ex:occurrenceOf ?fprov6.
+          <<  ?product bsbm:productPropertyTextual1 ?propertyTextual  >> ex:occurrenceOf ?fprov7.
+           << ?product bsbm:productPropertyNumeric1 ?p1  >> ex:occurrenceOf ?fprov8.
+            # const** "901.0"^^xsd:double < ?p1
+            FILTER ( ?p1 > "901.0"^^xsd:double )
+   BIND(concat("(⊗", STR(?fprov0), STR(?fprov1), STR(?fprov2), STR(?fprov3), STR(?fprov4),STR(?fprov5),STR(?fprov6),STR(?fprov7),STR(?fprov8), ")") AS ?rightunion0)
+   BIND(concat("(⊛",STR(?bgp1),"{", STR(?rightunion0), "})") AS ?servicerightunion0)
+        } 
+    } UNION {
+        SERVICE ?bgp2 {
+      <<      ?product rdfs:label ?label  >> ex:occurrenceOf ?fprov9.
+            # const!* bsbm:ProductType630
+        <<    ?product rdf:type ?localProductType  >> ex:occurrenceOf ?fprov10.
+         <<   ?localProductType owl:sameAs bsbm:ProductType630  >> ex:occurrenceOf ?fprov11.
+            # const!* bsbm:ProductFeature19851
+          <<  ?product bsbm:productFeature ?localProductFeature1  >> ex:occurrenceOf ?fprov12.
+          <<  ?localProductFeature1 owl:sameAs bsbm:ProductFeature19851  >> ex:occurrenceOf ?fprov13.
+            # const* bsbm:ProductFeature25702 != bsbm:ProductFeature19019, bsbm:ProductFeature19851
+          <<  ?product bsbm:productFeature ?localProductFeature3  >> ex:occurrenceOf ?fprov14.
+          <<  ?localProductFeature3 owl:sameAs bsbm:ProductFeature25702  >> ex:occurrenceOf ?fprov15.
+          <<  ?product bsbm:productPropertyTextual1 ?propertyTextual  >> ex:occurrenceOf ?fprov16.
+          <<  ?product bsbm:productPropertyNumeric2 ?p2  >> ex:occurrenceOf ?fprov17.
+            # const "519.0"^^xsd:double < ?p2
+            FILTER ( ?p2 > "519.0"^^xsd:double ) 
+   BIND(concat("(⊗", STR(?fprov9), STR(?fprov10), STR(?fprov11), STR(?fprov12), STR(?fprov13),STR(?fprov14),STR(?fprov15),STR(?fprov16),STR(?fprov17), ")") AS ?leftunion0)
+     BIND(concat("(⊛",STR(?bgp1),"{", STR(?leftunion0), "})") AS ?serviceleftunion0)
+        } 
+    }
+  BIND (CONCAT("(⊕",COALESCE(?servicerightunion0," "),",",COALESCE(?serviceleftunion0," "),",",")")  AS ?funion0) .
+}GROUP BY ?product ?label ?propertyTextual
+ORDER BY ?product ?label ?propertyTextual
+##OFFSET 5
+LIMIT 10

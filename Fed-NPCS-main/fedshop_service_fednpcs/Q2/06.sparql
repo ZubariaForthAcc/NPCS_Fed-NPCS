@@ -1,0 +1,72 @@
+PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX ex:  <http://example.org/>
+
+SELECT DISTINCT ?label ?comment ?producer ?ProductFeatureLabel ?propertyTextual1 ?propertyTextual2 ?propertyTextual3 ?propertyNumeric1 ?propertyNumeric2 ?propertyTextual4 ?propertyTextual5 ?propertyNumeric4 (concat("(⊕",group_concat(?fprov),")")AS ?f) WHERE {
+VALUES ( ?bgp1 ) { ( <http://172.21.233.17:7319/repositories/ratingsite19> ) ( <http://172.21.233.17:7309/repositories/ratingsite9> ) ( <http://172.21.233.17:7337/repositories/ratingsite37> ) ( <http://172.21.233.17:7350/repositories/ratingsite50> ) ( <http://172.21.233.17:7317/repositories/ratingsite17> ) ( <http://172.21.233.17:7357/repositories/ratingsite57> ) }
+    SERVICE ?bgp1 {
+        # const bsbm:Product89328
+        {{
+                 <<   ?localProduct owl:sameAs bsbm:Product89328 >> ex:occurrenceOf ?fprov0.
+     <<   ?localProduct rdfs:label ?label >> ex:occurrenceOf ?fprov1.
+     <<   ?localProduct rdfs:comment ?comment >> ex:occurrenceOf ?fprov2.
+     <<   ?localProduct bsbm:producer ?p >> ex:occurrenceOf ?fprov3.
+     <<   ?p rdfs:label ?producer >> ex:occurrenceOf ?fprov4.
+        #?localProduct dc:publisher ?p . 
+     <<   ?localProduct bsbm:productFeature ?localProductFeature1 >> ex:occurrenceOf ?fprov5.
+      <<  ?localProductFeature1 owl:sameAs ?ProductFeature1 >> ex:occurrenceOf ?fprov6.
+      <<  ?localProductFeature1 rdfs:label ?ProductFeatureLabel >> ex:occurrenceOf ?fprov7.
+      <<  ?localProduct bsbm:productPropertyTextual1 ?propertyTextual1 >> ex:occurrenceOf ?fprov8.
+      <<  ?localProduct bsbm:productPropertyTextual2 ?propertyTextual2 >> ex:occurrenceOf ?fprov9.
+      <<  ?localProduct bsbm:productPropertyTextual3 ?propertyTextual3 >> ex:occurrenceOf ?fprov10.
+     <<   ?localProduct bsbm:productPropertyNumeric1 ?propertyNumeric1 >> ex:occurrenceOf ?fprov11.
+     <<   ?localProduct bsbm:productPropertyNumeric2 ?propertyNumeric2 >> ex:occurrenceOf ?fprov12.
+      
+       << ?localProduct bsbm:productPropertyTextual4 ?propertyTextual4>> ex:occurrenceOf ?fprov13.
+     <<  ?localProduct bsbm:productPropertyTextual5 ?propertyTextual5 >> ex:occurrenceOf ?fprov14.
+      << ?localProduct bsbm:productPropertyNumeric4 ?propertyNumeric4 >> ex:occurrenceOf ?fprov15. 
+    BIND(concat("(⊗", STR(?fprov0), STR(?fprov1), STR(?fprov2), STR(?fprov3), STR(?fprov4),STR(?fprov5),STR(?fprov6),STR(?fprov7),STR(?fprov8),STR(?fprov9),STR(?fprov10),STR(?fprov11),STR(?fprov12),STR(?fprov13),STR(?fprov14),STR(?fprov15), ")") AS ?rightunion0)                 
+                
+            }
+        
+        UNION
+        { 
+     SELECT DISTINCT ?label ?comment ?producer ?ProductFeatureLabel ?propertyTextual1 ?propertyTextual2 ?propertyTextual3 ?propertyNumeric1 ?propertyNumeric2 ?propertyTextual4 ?propertyTextual5 ?propertyNumeric4 (CONCAT("(⊖",?rightoptional0,",",GROUP_CONCAT(?leftoptional0) ,",",")")  AS ?leftunion0)  WHERE{   
+            {             
+                
+                        { <<   ?localProduct owl:sameAs bsbm:Product89328 >> ex:occurrenceOf ?fprov16.
+     <<   ?localProduct rdfs:label ?label >> ex:occurrenceOf ?fprov17 .
+     <<   ?localProduct rdfs:comment ?comment >> ex:occurrenceOf ?fprov18.
+     <<   ?localProduct bsbm:producer ?p >> ex:occurrenceOf ?fprov19.
+     <<   ?p rdfs:label ?producer >> ex:occurrenceOf ?fprov20.
+        #?localProduct dc:publisher ?p . 
+     <<   ?localProduct bsbm:productFeature ?localProductFeature1 >> ex:occurrenceOf ?fprov21.
+      <<  ?localProductFeature1 owl:sameAs ?ProductFeature1 >> ex:occurrenceOf ?fprov22.
+      <<  ?localProductFeature1 rdfs:label ?ProductFeatureLabel >> ex:occurrenceOf ?fprov23.
+      <<  ?localProduct bsbm:productPropertyTextual1 ?propertyTextual1 >> ex:occurrenceOf ?fprov24.
+      <<  ?localProduct bsbm:productPropertyTextual2 ?propertyTextual2 >> ex:occurrenceOf ?fprov25.
+      <<  ?localProduct bsbm:productPropertyTextual3 ?propertyTextual3 >> ex:occurrenceOf ?fprov26.
+     <<   ?localProduct bsbm:productPropertyNumeric1 ?propertyNumeric1 >> ex:occurrenceOf ?fprov27.
+     <<   ?localProduct bsbm:productPropertyNumeric2 ?propertyNumeric2 >> ex:occurrenceOf ?fprov28.
+     BIND(concat("(⊗", STR(?fprov16), STR(?fprov17), STR(?fprov18), STR(?fprov19), STR(?fprov20),STR(?fprov21),STR(?fprov22),STR(?fprov23),STR(?fprov24),STR(?fprov25),STR(?fprov26),STR(?fprov27),STR(?fprov28), ")") AS ?rightoptional0)                          
+                        }
+                        
+        OPTIONAL { 
+       << ?localProduct bsbm:productPropertyTextual4 ?propertyTextual4>> ex:occurrenceOf ?fprov29.
+     <<  ?localProduct bsbm:productPropertyTextual5 ?propertyTextual5 >> ex:occurrenceOf ?fprov30.
+      << ?localProduct bsbm:productPropertyNumeric4 ?propertyNumeric4 >> ex:occurrenceOf ?fprov31.
+    BIND(concat("(⊗", STR(?fprov29), STR(?fprov30), STR(?fprov31), ")") AS ?leftoptional0)                       
+                        
+   } } }GROUP BY ?label ?comment ?producer ?ProductFeatureLabel ?propertyTextual1 ?propertyTextual2 ?propertyTextual3 ?propertyNumeric1 ?propertyNumeric2 ?propertyTextual4 ?propertyTextual5 ?propertyNumeric4 ?rightoptional0
+    }
+            BIND (CONCAT("(⊕",COALESCE(?rightunion0," "),",",COALESCE(?leftunion0," "),",",")")  AS ?funion0) .
+}
+      BIND(concat("( ⊛",STR(?bgp1),"{",STR(?funion0),"}") AS ?fprov)}
+}GROUP BY ?label ?comment ?producer ?ProductFeatureLabel ?propertyTextual1 ?propertyTextual2 ?propertyTextual3 ?propertyNumeric1 ?propertyNumeric2 ?propertyTextual4 ?propertyTextual5 ?propertyNumeric4
+
+        
+        
+        
