@@ -1,1 +1,59 @@
 
+* NPCS Webservices
+
+** Building the docker image
+
+First, build the docker image
+
+#+BEGIN_SRC
+docker build -t npcs_web:v1 .
+#+END_SRC
+
+** Running docker image
+
+#+BEGIN_SRC
+docker run -d -p 8080:8080 -t npcs_web:v1
+#+END_SRC
+
+The parameters =rdfstar= and =wikidata= are the identifiers for the
+reification schemes. The supported reification schemes are:
+
+1. =Service_SPARQL_Star= RDF-star reification on Service Query.
+2. =SPARQL=for non reification
+
+
+You can rewrite a query using the RDF-star reification scheme:
+Parameters are 
+#+BEGIN_SRC
+1st:reification scheme 
+2nd: path OR query (if you are sending query then write query if you are sending path then write path)
+3rd: path OR query (send query or path)
+#+END_SRC
+
+** Call the rewriting service at : http://localhost:8080/api/content/rewriteservice
+By passing the following JSON.It will return the rewritten query
+#+BEGIN_SRC
+{
+"input1": "Service_SPARQL_Star",
+"input2": "query",
+"input3": "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nPREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>\nPREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>\nSELECT DISTINCT ?product ?label WHERE {\n    VALUES ( ?bgp1 ) { ( <http://localhost:34205/sparql/?default-graph-uri=http://www.ratingsite0.fr/> ) }\n    SERVICE ?bgp1 {   \n        ?product rdfs:label ?label .\n        ?product rdf:type ?localProductType .\n        ?localProductType owl:sameAs bsbm:ProductType647 .\n        ?product bsbm:productFeature ?localProductFeature1 . \n        ?localProductFeature1 owl:sameAs bsbm:ProductFeature8774 .\n        ?product bsbm:productFeature ?localProductFeature2 . \n        ?localProductFeature2 owl:sameAs bsbm:ProductFeature16935 .\n        ?product bsbm:productPropertyNumeric1 ?value1 . \n        FILTER (?value1 > 744) \n    }\n}\nORDER BY ?product ?label\nLIMIT 10"
+}
+#+END_SRC
+
+** Call the executing service at : http://localhost:8080/api/content/executeQuery
+By passing the following JSON.It will return the rewritten query
+#+BEGIN_SRC
+{
+"repositoryUrl": "http://localhost:7200/repositories/fedshopdata",
+"query":rewritten_query 
+}
+#+END_SRC
+
+** Call the uploading service at : http://localhost:8080/api/content/uploadDataGDB
+By passing the File and repositoryUrl.
+
+
+
+
+
+
