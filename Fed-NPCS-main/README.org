@@ -2,10 +2,10 @@ This open-source project contains the Java implementation of our approach NPCS. 
 
 ** Fed-NPCS as a Service
 #+BEGIN_SRC
-Follow the steps written in the README file inside backend_webservices/npcs-rewrite-webservices
+Follow the steps written in the README file inside backendwebservice/fed-npcs-rewrite-webservice/npcs-rewrite
 #+END_SRC
 
 ** Fed-NPCS as a project
 #+BEGIN_SRC
-Follow the steps written in the README file inside /backend_base/npcs_rewriting_main
+Follow the steps written in the README file inside backendwebservice/backend-base/npcs_rewriting_main
 #+END_SRC
