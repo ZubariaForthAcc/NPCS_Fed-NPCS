@@ -30,7 +30,7 @@ Parameters are
 docker run --name npcs_container npcs:v1 "Service_SPARQL_Star" "path" queries/fedshop_service/Q1\00.sparql
 #+END_SRC
 
-#You can rewrite a query using the wikidata reification scheme:
+#+You can rewrite a query using the wikidata reification scheme:
 
 #+BEGIN_SRC
 #docker run --name npcs_container npcs:v1 "Wikidata" "path" queries\watdivqueries\Basic\C1\00.sparql
