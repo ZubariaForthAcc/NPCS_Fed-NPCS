@@ -1,14 +1,14 @@
 Wikidataqueries Rewriting Time						
-     Multiple	  Single    Optional
-  1	  247 ms		244 ms		273 ms
-	2	  249 ms		241 ms		265 ms
-	3	  243 ms		244 ms		273 ms
-	4	  236 ms		254 ms		270 ms
-	5	  244 ms		267 ms		263 ms
-	6	  240 ms		220 ms		249 ms
-	7	  243 ms		258 ms		251 ms
-	8	  255 ms		256 ms		252 ms
-	9	  240 ms		212 ms		266 ms
+ Multiple     Single   Optional
+  1	247 ms		244 ms		273 ms
+	2	249 ms		241 ms		265 ms
+	3	243 ms		244 ms		273 ms
+	4	236 ms		254 ms		270 ms
+	5	244 ms		267 ms		263 ms
+	6	240 ms		220 ms		249 ms
+	7	243 ms		258 ms		251 ms
+	8	255 ms		256 ms		252 ms
+	9	240 ms		212 ms		266 ms
 	10	250 ms		259 ms		258 ms
 	11	247 ms		207 ms		266 ms
 	12	259 ms		245 ms		246 ms
