@@ -45,7 +45,7 @@ The same transformation pipeline is applied to all other datasets used in the
 experiments (e.g., WatDiv-10M, WatDiv-100M, Wikidata extracts, and FedShop data)
 by replacing the input `.nt` file accordingly.
 
-## 3.Other Reification Schemes
+## 3. Other Reification Schemes
 
 We generate the following additional provenance encodings:
 
@@ -57,16 +57,29 @@ We generate the following additional provenance encodings:
 
 - Wikidata-real (official Wikidata schema)
 
-Each scheme follows the same workflow:
+1. Each scheme follows the same workflow:
 
-Start from the same base .nt dataset
+2. Start from the same base .nt dataset
 
-Apply a deterministic transformation script
+3. Apply a deterministic transformation script
 
-Load the resulting dataset into the target triple store
+4. Load the resulting dataset into the target triple store
 
 Scripts for all reification schemes are provided in:
 ```bash
 docs/datasets/scripts/
+
+```
+## 4. Loading Data into Triple Stores
+### GraphDB
+```bash
+graphdb-import --repository watdivrdfstargraphdb \
+               --file article_categories_en-rdf-star.ttls
+
+```
+### Stardog
+```bash
+stardog data add watdivrdfstargraphdb article_categories_en-rdf-star.ttls
+
 
 ```
